@@ -1,0 +1,20 @@
+# Linux standard
+.*
+!.gitignore
+*~
+
+# KDE
+.directoryi
+
+# Java
+*.class
+## Package Files #
+*.jar
+*.war
+*.ear
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
