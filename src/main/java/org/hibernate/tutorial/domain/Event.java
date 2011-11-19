@@ -1,6 +1,8 @@
 package org.hibernate.tutorial.domain;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Event {
     private Long id;
@@ -8,7 +10,8 @@ public class Event {
     private String title;
     private Date date;
 
-    public Event() {}
+    public Event() {
+    }
 
     public Long getId() {
         return id;

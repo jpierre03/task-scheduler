@@ -1,7 +1,7 @@
 package org.hibernate.tutorial.domain;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Person {
 
@@ -12,7 +12,8 @@ public class Person {
 
     private Set events = new HashSet();
 
-    public Person() {}
+    public Person() {
+    }
 
     private Set emailAddresses = new HashSet();
 
@@ -64,6 +65,7 @@ public class Person {
     public void setLastname(String first) {
         this.lastname = first;
     }
+
     public void addToEvent(Event event) {
         this.getEvents().add(event);
         event.getParticipants().add(this);

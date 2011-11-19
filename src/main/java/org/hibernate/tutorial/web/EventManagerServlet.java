@@ -1,5 +1,12 @@
 package org.hibernate.tutorial.web;
 
+import org.hibernate.tutorial.domain.Event;
+import org.hibernate.tutorial.util.HibernateUtil;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -7,85 +14,69 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.hibernate.tutorial.domain.Event;
-import org.hibernate.tutorial.util.HibernateUtil;
-
 public class EventManagerServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response) throws ServletException, IOException {
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 
-		try {
-			// Begin unit of work
-			HibernateUtil.getSessionFactory().getCurrentSession()
-					.beginTransaction();
+        try {
+            // Begin unit of work
+            HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
 
-			// Process request and render page...
-			// Write HTML header
-			PrintWriter out = response.getWriter();
-			out
-					.println("<html><head><title>Event Manager</title></head><body>");
+            // Process request and render page...
+            // Write HTML header
+            PrintWriter out = response.getWriter();
+            out.println("<html><head><title>Event Manager</title></head><body>");
 
-			// Handle actions
-			if ("store".equals(request.getParameter("action"))) {
+            // Handle actions
+            if ("store".equals(request.getParameter("action"))) {
 
-				String eventTitle = request.getParameter("eventTitle");
-				String eventDate = request.getParameter("eventDate");
+                String eventTitle = request.getParameter("eventTitle");
+                String eventDate = request.getParameter("eventDate");
 
-				if ("".equals(eventTitle) || "".equals(eventDate)) {
-					out
-							.println("<b><i>Please enter event title and date.</i></b>");
-				} else {
-					createAndStoreEvent(eventTitle, dateFormatter
-							.parse(eventDate));
-					out.println("<b><i>Added event.</i></b>");
-				}
-			}
+                if ("".equals(eventTitle) || "".equals(eventDate)) {
+                    out.println("<b><i>Please enter event title and date.</i></b>");
+                } else {
+                    createAndStoreEvent(eventTitle, dateFormatter.parse(eventDate));
+                    out.println("<b><i>Added event.</i></b>");
+                }
+            }
 
-			// Print page
-			printEventForm(out);
-			listEvents(out, dateFormatter);
+            // Print page
+            printEventForm(out);
+            listEvents(out, dateFormatter);
 
-			// Write HTML footer
-			out.println("</body></html>");
-			out.flush();
-			out.close();
+            // Write HTML footer
+            out.println("</body></html>");
+            out.flush();
+            out.close();
 
-			// End unit of work
-			HibernateUtil.getSessionFactory().getCurrentSession()
-					.getTransaction().commit();
-		} catch (Exception ex) {
-			HibernateUtil.getSessionFactory().getCurrentSession()
-					.getTransaction().rollback();
-			if (ServletException.class.isInstance(ex)) {
-				throw (ServletException) ex;
-			} else {
-				throw new ServletException(ex);
-			}
-		}
-	}
+            // End unit of work
+            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+        } catch (Exception ex) {
+            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
+            if (ServletException.class.isInstance(ex)) {
+                throw (ServletException) ex;
+            } else {
+                throw new ServletException(ex);
+            }
+        }
+    }
 
-	private void printEventForm(PrintWriter out) {
-		out.println("<h2>Add new event:</h2>");
-		out.println("<form>");
-		out.println("Title: <input name='eventTitle' length='50'/><br/>");
-		out
-				.println("Date (e.g. 24.12.2009): <input name='eventDate' length='10'/><br/>");
-		out.println("<input type='submit' name='action' value='store'/>");
-		out.println("</form>");
-	}
-	
-	private void listEvents(PrintWriter out, SimpleDateFormat dateFormatter) {
+    private void printEventForm(PrintWriter out) {
+        out.println("<h2>Add new event:</h2>");
+        out.println("<form>");
+        out.println("Title: <input name='eventTitle' length='50'/><br/>");
+        out.println("Date (e.g. 24.12.2009): <input name='eventDate' length='10'/><br/>");
+        out.println("<input type='submit' name='action' value='store'/>");
+        out.println("</form>");
+    }
 
-        List result = HibernateUtil.getSessionFactory()
-                .getCurrentSession().createCriteria(Event.class).list();
+    private void listEvents(PrintWriter out, SimpleDateFormat dateFormatter) {
+
+        List result = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Event.class).list();
         if (result.size() > 0) {
             out.println("<h2>Events in database:</h2>");
             out.println("<table border='1'>");
@@ -104,13 +95,12 @@ public class EventManagerServlet extends HttpServlet {
             out.println("</table>");
         }
     }
-	
-	protected void createAndStoreEvent(String title, Date theDate) {
+
+    protected void createAndStoreEvent(String title, Date theDate) {
         Event theEvent = new Event();
         theEvent.setTitle(title);
         theEvent.setDate(theDate);
 
-        HibernateUtil.getSessionFactory()
-                .getCurrentSession().save(theEvent);
+        HibernateUtil.getSessionFactory().getCurrentSession().save(theEvent);
     }
 }
