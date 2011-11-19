@@ -1,0 +1,43 @@
+Basic value types
+
+The built-in basic mapping types may be roughly categorized into
+
+integer, long, short, float, double, character, byte, boolean, yes_no, true_false
+
+    Les mappings de type des primitives Java ou leurs classes wrappers (ex: Integer pour int) vers les types SQL (propriétaires) appropriés. boolean, yes_noet true_false sont tous des alternatives pour les types Java boolean ou java.lang.Boolean.
+string
+
+    Mapping de type de java.lang.String vers VARCHAR (ou le VARCHAR2 Oracle).
+date, time, timestamp
+
+    Mappings de type pour java.util.Date et ses sous-classes vers les types SQL DATE, TIME et TIMESTAMP (ou équivalent).
+calendar, calendar_date
+
+    Mappings de type pour java.util.Calendar vers les types SQL TIMESTAMP et DATE (ou équivalent).
+big_decimal, big_integer
+
+    Mappings de type pour java.math.BigDecimal et java.math.BigInteger vers NUMERIC (ou le NUMBER Oracle).
+locale, timezone, currency
+
+    Mappings de type pour java.util.Locale, java.util.TimeZone et java.util.Currency vers VARCHAR (ou le VARCHAR2 Oracle). Les instances de Locale et Currency sont mappées sur leurs codes ISO. Les instances de TimeZone sont mappées sur leur ID.
+class
+
+    Un type de mapping pour java.lang.Class vers VARCHAR (ou le VARCHAR2 Oracle). Un objet Class est mappé sur son nom Java complet.
+binary
+
+    Mappe les tableaux de bytes vers le type binaire SQL approprié.
+text
+
+    Mappe les longues chaînes de caractères Java vers les types SQL CLOB ou TEXT.
+serializable
+
+    Mappe les types Java sérialisables vers le type SQL binaire approprié. Vous pouvez aussi indiquer le type Hibernate serializable avec le nom d'une classe Java sérialisable ou une interface qui ne soit pas par défaut un type de base.
+clob, blob
+
+    Mappings de type pour les classes JDBC java.sql.Clob and java.sql.Blob. Ces types peuvent ne pas convenir pour certaines applications car un objet blob ou clob peut ne pas être réutilisable en dehors d'une transaction (de plus l'implémentation par les pilotes est moyennement bonne).
+imm_date, imm_time, imm_timestamp, imm_calendar, imm_calendar_date, imm_serializable, imm_binary
+
+    Mappings de type pour ceux qui sont habituellement modifiable, pour lesquels Hibernate effectue certains optimisations convenant seulement aux types Java immuables, et l'application les traite comme immuable. Par exemple, vous ne devriez pas appeler Date.setTime() sur une instance mappée sur un imm_timestamp. Pour changer la valeur de la propriété, et faire que cette modification soit persistée, l'application doit assigner un nouvel (non identique) objet à la propriété.
+
+Les identifiants uniques des entités et collections peuvent être de n'importe quel type de base excepté binary, blob et clob (les identifiants composites sont aussi permis, voir plus bas).
+
