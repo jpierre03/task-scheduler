@@ -5,19 +5,50 @@
 
 <hibernate-configuration>
 
-    <session-factory>
+    <!--<session-factory>-->
 
-        <!-- Database connection settings -->
-        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:hsql://localhost</property>
-        <property name="connection.username">sa</property>
-        <property name="connection.password"></property>
+    <!--&lt;!&ndash; Database connection settings &ndash;&gt;-->
+    <!--<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>-->
+    <!--<property name="connection.url">jdbc:hsqldb:hsql://localhost</property>-->
+    <!--<property name="connection.username">sa</property>-->
+    <!--<property name="connection.password">secret</property>-->
+
+    <!--&lt;!&ndash; JDBC connection pool (use the built-in) &ndash;&gt;-->
+    <!--<property name="connection.pool_size">1</property>-->
+
+    <!--&lt;!&ndash; SQL dialect &ndash;&gt;-->
+    <!--<property name="dialect">org.hibernate.dialect.HSQLDialect</property>-->
+
+    <!--&lt;!&ndash; Enable Hibernate's automatic session context management &ndash;&gt;-->
+    <!--<property name="current_session_context_class">thread</property>-->
+
+    <!--&lt;!&ndash; Disable the second-level cache  &ndash;&gt;-->
+    <!--<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>-->
+
+    <!--&lt;!&ndash; Echo all executed SQL to stdout &ndash;&gt;-->
+    <!--<property name="show_sql">true</property>-->
+
+    <!--&lt;!&ndash; Drop and re-create the database schema on startup &ndash;&gt;-->
+    <!--<property name="hbm2ddl.auto">update</property>-->
+
+    <!--<mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>-->
+    <!--<mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/>-->
+
+    <!--</session-factory>-->
+
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost/sandbox</property>
+        <property name="connection.username">jpierre03</property>
+        <property name="connection.password">toto</property>
+
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
-
-        <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
@@ -31,9 +62,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
+        <!-- mapping files -->
         <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>
         <mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/>
-
     </session-factory>
 
 </hibernate-configuration>
