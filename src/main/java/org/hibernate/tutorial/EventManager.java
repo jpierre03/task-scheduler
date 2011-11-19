@@ -1,33 +1,44 @@
 package org.hibernate.tutorial;
 
-import java.util.Date;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.tutorial.domain.Event;
 import org.hibernate.tutorial.domain.Person;
 import org.hibernate.tutorial.util.HibernateUtil;
+
+import java.util.Date;
+import java.util.List;
 
 public class EventManager {
 
     public static void main(String[] args) {
         EventManager mgr = new EventManager();
 
-        if (args[0].equals("store")) {
-            mgr.createAndStoreEvent("My Event", new Date());
-        } else if (args[0].equals("list")) {
-            List events = mgr.listEvents();
-            for (int i = 0; i < events.size(); i++) {
-                Event theEvent = (Event) events.get(i);
-                System.out.println(
-                        "Event: " + theEvent.getTitle() + " Time: " + theEvent.getDate()
-                );
+        if (args.length > 0) {
+            if (args[0].equals("store")) {
+                mgr.createAndStoreEvent("My Event", new Date());
+            } else if (args[0].equals("list")) {
+                List events = mgr.listEvents();
+                for (int i = 0; i < events.size(); i++) {
+                    Event theEvent = (Event) events.get(i);
+                    System.out.println(
+                            "Event: " + theEvent.getTitle() + " Time: " + theEvent.getDate()
+                    );
+                }
+            } else if (args[0].equals("addpersontoevent")) {
+                Long eventId = mgr.createAndStoreEvent("My Event", new Date());
+                Long personId = mgr.createAndStorePerson("Foo", "Bar");
+                mgr.addPersonToEvent(personId, eventId);
+                System.out.println("Added person " + personId + " to event " + eventId);
             }
-        } else if (args[0].equals("addpersontoevent")) {
-            Long eventId = mgr.createAndStoreEvent("My Event", new Date());
-            Long personId = mgr.createAndStorePerson("Foo", "Bar");
-            mgr.addPersonToEvent(personId, eventId);
-            System.out.println("Added person " + personId + " to event " + eventId);
+        } else {
+            for (int i = 0; i < 1000; i++) {
+                mgr.createAndStoreEvent("My Event", new Date());
+            }
+
+            List l = mgr.listEvents();
+            for (Object o : l) {
+                System.out.println(o);
+            }
         }
 
         HibernateUtil.getSessionFactory().close();
