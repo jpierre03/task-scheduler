@@ -29,14 +29,27 @@ public class Main {
 
     public static void main(String[] args) {
         Main mgr = new Main();
+        if (args.length > 0) {
 
-        for (int i = 0; i < 1000; i++) {
-            mgr.createAndStoreTask("My Task", "CLI");
-        }
+            if ("listTask".equalsIgnoreCase(args[0])) {
+                List l = mgr.listTasks();
+                for (Object o : l) {
+                    System.out.println(o);
+                }
+            }
 
-        List l = mgr.listTasks();
-        for (Object o : l) {
-            System.out.println(o);
+            if ("addTask".equalsIgnoreCase(args[0]) && args.length > 3) {
+                mgr.createAndStoreTask(args[1], args[2]);
+            }
+        } else {
+            for (int i = 0; i < 1000; i++) {
+                mgr.createAndStoreTask("My Task", "CLI");
+            }
+
+            List l = mgr.listTasks();
+            for (Object o : l) {
+                System.out.println(o);
+            }
         }
 
         HibernateUtil.getSessionFactory().close();
