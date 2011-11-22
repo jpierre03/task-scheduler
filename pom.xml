@@ -52,6 +52,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>3.3.2.GA</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.3.1.GA</version>
+        </dependency>
 
         <!-- Because this is a web app, we also have a dependency on the servlet api. -->
         <dependency>
