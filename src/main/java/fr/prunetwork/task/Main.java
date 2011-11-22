@@ -42,7 +42,7 @@ public class Main {
                 mgr.createAndStoreTask(args[1], args[2]);
             }
         } else {
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 10; i++) {
                 mgr.createAndStoreTask("My Task", "CLI");
             }
 
