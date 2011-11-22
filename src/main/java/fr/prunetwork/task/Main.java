@@ -19,6 +19,12 @@
 
 package fr.prunetwork.task;
 
+import fr.prunetwork.task.domain.Task;
+import org.hibernate.Session;
+import org.hibernate.tutorial.domain.Event;
+import org.hibernate.tutorial.domain.Person;
+import org.hibernate.tutorial.util.HibernateUtil;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -33,14 +39,14 @@ public class Main {
             System.out.println(o);
         }
 
-        org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().close();
+        HibernateUtil.getSessionFactory().close();
     }
 
     private Long createAndStoreTask(String name, String command) {
-        org.hibernate.Session session = org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        fr.prunetwork.task.domain.Task t = new fr.prunetwork.task.domain.Task();
+        Task t = new Task();
         t.setName(name);
         t.setCommand(command);
         session.save(t);
@@ -50,7 +56,7 @@ public class Main {
     }
 
     private java.util.List listTasks() {
-        org.hibernate.Session session = org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         java.util.List result = session.createQuery("from Task").list();
         session.getTransaction().commit();
@@ -58,10 +64,10 @@ public class Main {
     }
 
     private Long createAndStorePerson(String first, String last) {
-        org.hibernate.Session session = org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        org.hibernate.tutorial.domain.Person p = new org.hibernate.tutorial.domain.Person();
+        Person p = new Person();
         session.save(p);
 
         session.getTransaction().commit();
@@ -69,21 +75,21 @@ public class Main {
     }
 
     private void addPersonToEvent(Long personId, Long eventId) {
-        org.hibernate.Session session = org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        org.hibernate.tutorial.domain.Person aPerson = (org.hibernate.tutorial.domain.Person) session.load(org.hibernate.tutorial.domain.Person.class, personId);
-        org.hibernate.tutorial.domain.Event anEvent = (org.hibernate.tutorial.domain.Event) session.load(org.hibernate.tutorial.domain.Event.class, eventId);
+        Person aPerson = (Person) session.load(Person.class, personId);
+        Event anEvent = (Event) session.load(Event.class, eventId);
         aPerson.addToEvent(anEvent);
 
         session.getTransaction().commit();
     }
 
     private void addEmailToPerson(Long personId, String emailAddress) {
-        org.hibernate.Session session = org.hibernate.tutorial.util.HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        org.hibernate.tutorial.domain.Person aPerson = (org.hibernate.tutorial.domain.Person) session.load(org.hibernate.tutorial.domain.Person.class, personId);
+        Person aPerson = (Person) session.load(Person.class, personId);
         // adding to the emailAddress collection might trigger a lazy load of the collection
         aPerson.getEmailAddresses().add(emailAddress);
 
