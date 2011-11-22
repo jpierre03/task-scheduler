@@ -82,8 +82,8 @@
         <property name="hbm2ddl.auto">update</property>
 
         <!-- mapping files -->
-        <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>
-        <mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/>
+        <!--<mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>-->
+        <!--<mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/>-->
 
         <mapping resource="fr/prunetwork/task/domain/Task.hbm.xml"/>
     </session-factory>
