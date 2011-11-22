@@ -21,9 +21,9 @@ package fr.prunetwork.task;
 
 import fr.prunetwork.task.domain.Task;
 import org.hibernate.Session;
-import org.hibernate.tutorial.domain.Event;
-import org.hibernate.tutorial.domain.Person;
 import org.hibernate.tutorial.util.HibernateUtil;
+
+import java.util.List;
 
 public class Main {
 
@@ -34,7 +34,7 @@ public class Main {
             mgr.createAndStoreTask("My Task", "CLI");
         }
 
-        java.util.List l = mgr.listTasks();
+        List l = mgr.listTasks();
         for (Object o : l) {
             System.out.println(o);
         }
@@ -55,45 +55,12 @@ public class Main {
         return t.getId();
     }
 
-    private java.util.List listTasks() {
+    private List listTasks() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        java.util.List result = session.createQuery("from Task").list();
+        List result = session.createQuery("from Task").list();
         session.getTransaction().commit();
         return result;
-    }
-
-    private Long createAndStorePerson(String first, String last) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        Person p = new Person();
-        session.save(p);
-
-        session.getTransaction().commit();
-        return p.getId();
-    }
-
-    private void addPersonToEvent(Long personId, Long eventId) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        Person aPerson = (Person) session.load(Person.class, personId);
-        Event anEvent = (Event) session.load(Event.class, eventId);
-        aPerson.addToEvent(anEvent);
-
-        session.getTransaction().commit();
-    }
-
-    private void addEmailToPerson(Long personId, String emailAddress) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        Person aPerson = (Person) session.load(Person.class, personId);
-        // adding to the emailAddress collection might trigger a lazy load of the collection
-        aPerson.getEmailAddresses().add(emailAddress);
-
-        session.getTransaction().commit();
     }
 }
 
