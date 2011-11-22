@@ -33,28 +33,46 @@ public class Main {
         if (args.length > 0) {
 
             if ("--list-Task".equalsIgnoreCase(args[0])) {
-                List l = mgr.listTasks();
-                for (Object o : l) {
-                    System.out.println(o);
-                }
+                mgr.displayTasks(System.out);
             }
 
             if ("--flush-Task".equalsIgnoreCase(args[0])) {
                 mgr.flushTasks();
             }
 
-            if ("--add-Task".equalsIgnoreCase(args[0]) && args.length > 3) {
-                mgr.createAndStoreTask(args[1], args[2]);
+            if ("--add-Task".equalsIgnoreCase(args[0])) {
+//                mgr.createAndStoreTask("MyTask", "CLI");
+                mgr.createAndStoreTask_massive("MyTask", "CLI", 10);
+
+                mgr.displayTasks(System.out);
             }
+
+//            if ("--hammer".equalsIgnoreCase(args[0])) {
+////                mgr.createAndStoreTask_massive("MyTask", "CLI", 10 * 1000 * 1000);
+//
+//                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//                session.beginTransaction();
+//                int count = 10 * 1000;
+//
+//                for (long i = 0; i < count; i++) {
+//                    Task t = new Task();
+//                    t.setName("MyTask");
+//                    t.setCommand("CLI");
+//                    session.save(t);
+//
+//                    session.delete(t);
+//
+//                    session.evict(t);
+//                }
+//                session.getTransaction().commit();
+//            }
         } else {
-            for (int i = 0; i < 10; i++) {
+            // Automatically add and display
+            for (int i = 0; i < 100; i++) {
                 mgr.createAndStoreTask("My Task", "CLI");
             }
 
-            List l = mgr.listTasks();
-            for (Object o : l) {
-                System.out.println(o);
-            }
+            mgr.displayTasks(System.out);
         }
 
         HibernateUtil.getSessionFactory().close();
@@ -71,6 +89,20 @@ public class Main {
 
         session.getTransaction().commit();
         return t.getId();
+    }
+
+    private void createAndStoreTask_massive(String name, String command, int count) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        for (long i = 0; i < count; i++) {
+            Task t = new Task();
+            t.setName(name);
+            t.setCommand(command);
+            session.save(t);
+        }
+
+        session.getTransaction().commit();
     }
 
     private List listTasks() {
