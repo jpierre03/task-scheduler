@@ -23,6 +23,7 @@ import fr.prunetwork.task.domain.Task;
 import org.hibernate.Session;
 import org.hibernate.tutorial.util.HibernateUtil;
 
+import java.io.PrintStream;
 import java.util.List;
 
 public class Main {
@@ -36,6 +37,10 @@ public class Main {
                 for (Object o : l) {
                     System.out.println(o);
                 }
+            }
+
+            if ("--flush-Task".equalsIgnoreCase(args[0])) {
+                mgr.flushTasks();
             }
 
             if ("--add-Task".equalsIgnoreCase(args[0]) && args.length > 3) {
@@ -74,6 +79,23 @@ public class Main {
         List result = session.createQuery("from Task").list();
         session.getTransaction().commit();
         return result;
+    }
+
+    private void displayTasks(PrintStream out) {
+        List l = this.listTasks();
+        for (Object o : l) {
+            out.println(o);
+        }
+    }
+
+    private void flushTasks() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        for (Object o : session.createQuery("from Task").list()) {
+            session.delete(o);
+        }
+        session.getTransaction().commit();
     }
 }
 
