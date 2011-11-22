@@ -31,14 +31,14 @@ public class Main {
         Main mgr = new Main();
         if (args.length > 0) {
 
-            if ("listTask".equalsIgnoreCase(args[0])) {
+            if ("--list-Task".equalsIgnoreCase(args[0])) {
                 List l = mgr.listTasks();
                 for (Object o : l) {
                     System.out.println(o);
                 }
             }
 
-            if ("addTask".equalsIgnoreCase(args[0]) && args.length > 3) {
+            if ("--add-Task".equalsIgnoreCase(args[0]) && args.length > 3) {
                 mgr.createAndStoreTask(args[1], args[2]);
             }
         } else {
