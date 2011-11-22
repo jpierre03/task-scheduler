@@ -51,4 +51,12 @@ public final class Task {
     public void setCommand(String command) {
         this.command = command;
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"").append(id).append("\";");
+        sb.append("\"").append(name).append("\";");
+        sb.append("\"").append(command).append("\"");
+        return sb.toString();
+    }
 }
