@@ -19,16 +19,42 @@
 
 package fr.prunetwork.task.domain;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Jean-Pierre PRUNARET
  *         Date: 19/11/11 22:54
  */
-public final class Task {
+@Entity
+public class Task {
+
+    @Id
+    @GeneratedValue
     private Long id;
+
     private String name;
     private String command;
 
-    public Long getId() {
+    @ManyToMany
+    private Set<Task> parents = new HashSet<Task>();
+
+    public static Task createTask(String name, String command) {
+        assert (name != null);
+        assert (command != null);
+
+        Task t = new Task();
+        t.name = name;
+        t.command = command;
+
+        return t;
+    }
+
+    private Task() {
+    }
+
+    private Long getId() {
         return id;
     }
 
@@ -52,11 +78,30 @@ public final class Task {
         this.command = command;
     }
 
+    @Transient
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\"").append(id).append("\";");
         sb.append("\"").append(name).append("\";");
-        sb.append("\"").append(command).append("\"");
+        sb.append("\"").append(command).append("\";");
+//        sb.append("\"").append(parents.toArray()).append("\"");
         return sb.toString();
     }
+
+    public void addParent(Task parent) {
+        assert (parent != null);
+        this.getParents().add(parent);
+    }
+
+
+    private Set<Task> getParents() {
+        return parents;
+    }
+
+    private void setParents(Set<Task> parents) {
+        this.parents = parents;
+    }
+
+
 }
+

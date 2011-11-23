@@ -42,7 +42,28 @@ public class Main {
 
             if ("--add-Task".equalsIgnoreCase(args[0])) {
 //                mgr.createAndStoreTask("MyTask", "CLI");
-                mgr.createAndStoreTask_massive("MyTask", "CLI", 10);
+                mgr.createAndStoreTask_massive("MyTask", "CLI", 1 * 1000);
+
+                mgr.displayTasks(System.out);
+            }
+
+            if ("--sample-Task".equalsIgnoreCase(args[0])) {
+                Task sap = Task.createTask("sap-EC2", "true");
+                Task sap_auto = Task.createTask("sap-control-m", "true");
+                Task zsd021 = Task.createTask("zsd021", "\\\\pica\\zsd021.exe");
+
+                sap_auto.addParent(sap);
+                zsd021.addParent(sap_auto);
+
+
+                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+                session.beginTransaction();
+
+                session.save(sap);
+                session.save(sap_auto);
+                session.save(zsd021);
+
+                session.getTransaction().commit();
 
                 mgr.displayTasks(System.out);
             }
@@ -68,9 +89,7 @@ public class Main {
 //            }
         } else {
             // Automatically add and display
-            for (int i = 0; i < 100; i++) {
-                mgr.createAndStoreTask("My Task", "CLI");
-            }
+            mgr.createAndStoreTask_massive("MyTask", "CLI", 10);
 
             mgr.displayTasks(System.out);
         }
@@ -78,27 +97,29 @@ public class Main {
         HibernateUtil.getSessionFactory().close();
     }
 
-    private Long createAndStoreTask(String name, String command) {
+    private void createAndStoreTask(String name, String command) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        Task t = new Task();
-        t.setName(name);
-        t.setCommand(command);
+        Task t = Task.createTask(name, command);
         session.save(t);
 
         session.getTransaction().commit();
-        return t.getId();
     }
 
     private void createAndStoreTask_massive(String name, String command, int count) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        for (long i = 0; i < count; i++) {
-            Task t = new Task();
-            t.setName(name);
-            t.setCommand(command);
+
+        Task t1 = Task.createTask(name, command);
+        session.save(t1);
+
+        for (long i = 0; i < count - 1; i++) {
+            Task t = Task.createTask(name, command);
+
+            t.addParent(t1);
+
             session.save(t);
         }
 
