@@ -20,6 +20,7 @@
 package fr.prunetwork.task;
 
 import fr.prunetwork.task.domain.Task;
+import fr.prunetwork.task.visitor.TaskGraphvizVisitor;
 import org.hibernate.Session;
 import org.hibernate.tutorial.util.HibernateUtil;
 
@@ -64,8 +65,13 @@ public class Main {
                 session.save(zsd021);
 
                 session.getTransaction().commit();
+//                mgr.displayTasks(System.out);
+//                zsd021.accept(new TaskPrintVisitor());
+                
+                System.out.println("digraph task{");
+                zsd021.accept(new TaskGraphvizVisitor());
+                System.out.println("}");
 
-                mgr.displayTasks(System.out);
             }
 
 //            if ("--hammer".equalsIgnoreCase(args[0])) {

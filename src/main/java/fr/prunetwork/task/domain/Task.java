@@ -19,7 +19,11 @@
 
 package fr.prunetwork.task.domain;
 
+import fr.prunetwork.task.visitor.Visitable;
+import fr.prunetwork.task.visitor.Visitor;
+
 import javax.persistence.*;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +32,7 @@ import java.util.Set;
  *         Date: 19/11/11 22:54
  */
 @Entity
-public class Task {
+public class Task implements Visitable {
 
     @Id
     @GeneratedValue
@@ -45,7 +49,7 @@ public class Task {
         assert (command != null);
 
         Task t = new Task();
-        t.name = name;
+        t.name = name.replaceAll("[^a-zA-Z0-9]", "_");
         t.command = command;
 
         return t;
@@ -94,7 +98,8 @@ public class Task {
     }
 
 
-    private Set<Task> getParents() {
+    public Set<Task> getParents() {
+//        return Collections.unmodifiableSet(parents);
         return parents;
     }
 
@@ -103,5 +108,34 @@ public class Task {
     }
 
 
+    @Override
+    public void accept(Visitor visitor) {
+
+        visitor.visit(this);
+    }
+
+    public void toCSV(PrintStream sb) {
+        sb.append("\"").append(id + "").append("\";");
+        sb.append("\"").append(name).append("\";");
+        sb.append("\"").append(command).append("\";");
+
+        sb.append("\n");
+    }
+
+    public void toGraphvizLabel(PrintStream out) {
+        assert (name != null);
+        assert (name != "");
+        out.append("node ").append("[").append("label=\"").append(name).append("\"").append("] ").append("T" + id).append("\n");
+
+        for (Task t : parents) {
+            out.append("T" + id).append(" -> ").append(t.getName()).append(";\n");
+        }
+    }
+
+    public void toGraphvizRelation(PrintStream out) {
+        for (Task t : parents) {
+            out.append("T" + id).append(" -> ").append("T" + t.id).append(";\n");
+        }
+    }
 }
 
