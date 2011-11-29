@@ -67,32 +67,18 @@ public class Main {
                 session.getTransaction().commit();
 //                mgr.displayTasks(System.out);
 //                zsd021.accept(new TaskPrintVisitor());
-                
+
+
                 System.out.println("digraph task{");
-                zsd021.accept(new TaskGraphvizVisitor());
+                zsd021.accept(new TaskGraphvizVisitor(System.out));
                 System.out.println("}");
 
             }
 
-//            if ("--hammer".equalsIgnoreCase(args[0])) {
-////                mgr.createAndStoreTask_massive("MyTask", "CLI", 10 * 1000 * 1000);
-//
-//                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//                session.beginTransaction();
-//                int count = 10 * 1000;
-//
-//                for (long i = 0; i < count; i++) {
-//                    Task t = new Task();
-//                    t.setName("MyTask");
-//                    t.setCommand("CLI");
-//                    session.save(t);
-//
-//                    session.delete(t);
-//
-//                    session.evict(t);
-//                }
-//                session.getTransaction().commit();
-//            }
+            if ("--hammer".equalsIgnoreCase(args[0])) {
+                mgr.createAndStoreTask_massive("MyTask", "CLI", 10 * 1000 * 1000);
+            }
+
         } else {
             // Automatically add and display
             mgr.createAndStoreTask_massive("MyTask", "CLI", 10);
@@ -101,6 +87,9 @@ public class Main {
         }
 
         HibernateUtil.getSessionFactory().close();
+
+//        assert (false) : "This should fail";
+//        throw new Error("Add vm parameter -ea (or -enableassertions) to enable assertion checks");
     }
 
     private void createAndStoreTask(String name, String command) {

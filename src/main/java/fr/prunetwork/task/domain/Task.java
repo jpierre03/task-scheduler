@@ -46,12 +46,15 @@ public class Task implements Visitable {
 
     public static Task createTask(String name, String command) {
         assert (name != null);
+        assert (name != "");
         assert (command != null);
+        assert (command != "");
 
         Task t = new Task();
         t.name = name.replaceAll("[^a-zA-Z0-9]", "_");
         t.command = command;
 
+        assert (name != "");
         return t;
     }
 
@@ -59,22 +62,28 @@ public class Task implements Visitable {
     }
 
     private Long getId() {
+        assert (id != null);
         return id;
     }
 
     private void setId(Long id) {
+        assert (id != null);
         this.id = id;
     }
 
     public String getName() {
+        assert (name != null);
         return name;
     }
 
     public void setName(String name) {
+        assert (name != null);
+        assert (name != "");
         this.name = name;
     }
 
     public String getCommand() {
+        assert (command != null);
         return command;
     }
 
@@ -93,35 +102,43 @@ public class Task implements Visitable {
 
     public void addParent(Task parent) {
         assert (parent != null);
+        assert (this.getParents() != null);
+
         this.getParents().add(parent);
     }
 
 
     public Set<Task> getParents() {
+        assert (parents != null);
         return parents;
     }
 
     private void setParents(Set<Task> parents) {
+        assert (parents != null);
         this.parents = parents;
     }
 
     @Override
     public void accept(Visitor visitor) {
-
+        assert (visitor != null);
         visitor.visit(this);
     }
 
     public void toCSV(PrintStream sb) {
+        assert (sb != null);
+
         sb.append("\"").append(id + "").append("\";");
         sb.append("\"").append(name).append("\";");
         sb.append("\"").append(command).append("\";");
-
         sb.append("\n");
     }
 
     public void toGraphvizLabel(PrintStream out) {
         assert (name != null);
         assert (name != "");
+        assert (id != null);
+        assert (out != null);
+
         out.append("node ").append("[").append("label=\"").append(name).append("\"").append("] ").append("T" + id).append(";\n");
 
         for (Task t : parents) {
@@ -130,6 +147,8 @@ public class Task implements Visitable {
     }
 
     public void toGraphvizRelation(PrintStream out) {
+        assert (out != null);
+
         for (Task t : parents) {
             out.append("T" + id).append(" -> ").append("T" + t.id).append(";\n");
         }

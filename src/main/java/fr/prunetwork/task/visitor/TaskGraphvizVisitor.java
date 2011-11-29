@@ -28,9 +28,11 @@ import java.io.PrintStream;
  *         Date: 23/11/11 20:11
  */
 public class TaskGraphvizVisitor extends TaskVisitor {
-    PrintStream out = System.out;
+    final PrintStream out;
 
-    public TaskGraphvizVisitor() {
+    public TaskGraphvizVisitor(PrintStream out) {
+        assert (out != null);
+        this.out = out;
     }
 
     @Override
