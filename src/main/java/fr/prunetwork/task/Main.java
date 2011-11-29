@@ -21,6 +21,7 @@ package fr.prunetwork.task;
 
 import fr.prunetwork.task.domain.Task;
 import fr.prunetwork.task.visitor.TaskGraphvizVisitor;
+import fr.prunetwork.task.visitor.TaskHibernateHandlerVisitor;
 import org.hibernate.Session;
 import org.hibernate.tutorial.util.HibernateUtil;
 
@@ -57,17 +58,13 @@ public class Main {
                 zsd021.addParent(sap_auto);
 
 
-                Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-                session.beginTransaction();
+                zsd021.accept(new TaskHibernateHandlerVisitor());
+//                mgr.storeTask(sap);
+//                mgr.storeTask(sap_auto);
+//                mgr.storeTask(zsd021);
 
-                session.save(sap);
-                session.save(sap_auto);
-                session.save(zsd021);
-
-                session.getTransaction().commit();
 //                mgr.displayTasks(System.out);
 //                zsd021.accept(new TaskPrintVisitor());
-
 
                 System.out.println("digraph task{");
                 zsd021.accept(new TaskGraphvizVisitor(System.out));
@@ -92,14 +89,26 @@ public class Main {
 //        throw new Error("Add vm parameter -ea (or -enableassertions) to enable assertion checks");
     }
 
-    private void createAndStoreTask(String name, String command) {
+    private void storeTask(Task task) {
+        assert (task != null);
+    }
+
+    private Task createAndStoreTask(String name, String command) {
+        assert (name != null);
+        assert (name != "");
+        assert (command != null);
+        assert (command != "");
+
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
         Task t = Task.createTask(name, command);
+
+        assert (t != null);
         session.save(t);
 
         session.getTransaction().commit();
+        return t;
     }
 
     private void createAndStoreTask_massive(String name, String command, int count) {
