@@ -24,6 +24,7 @@ import fr.prunetwork.task.visitor.Visitor;
 
 import javax.persistence.*;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,8 @@ public class Task implements Visitable {
 
     private String name;
     private String command;
+
+    private Date lastRun = new Date(0);
 
     @ManyToMany
     private Set<Task> parents = new HashSet<Task>();
@@ -182,6 +185,17 @@ public class Task implements Visitable {
     public void setTaskFrequencyStatus(TaskFrequencyStatus taskFrequencyStatus) {
         assert (taskFrequencyStatus != null);
         this.taskFrequencyStatus = taskFrequencyStatus;
+    }
+
+    public Date getLastRun() {
+        assert (lastRun != null);
+        return lastRun;
+    }
+
+    public void setLastRun(Date lastRun) {
+        assert (lastRun != null);
+        assert (lastRun.getTime() != 0): "Can't be 01/01/1970 00:00:00 !!";
+        this.lastRun = lastRun;
     }
 }
 
