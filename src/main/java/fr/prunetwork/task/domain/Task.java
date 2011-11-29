@@ -84,11 +84,10 @@ public class Task implements Visitable {
 
     @Transient
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("\"").append(id).append("\";");
         sb.append("\"").append(name).append("\";");
         sb.append("\"").append(command).append("\";");
-//        sb.append("\"").append(parents.toArray()).append("\"");
         return sb.toString();
     }
 
@@ -99,14 +98,12 @@ public class Task implements Visitable {
 
 
     public Set<Task> getParents() {
-//        return Collections.unmodifiableSet(parents);
         return parents;
     }
 
     private void setParents(Set<Task> parents) {
         this.parents = parents;
     }
-
 
     @Override
     public void accept(Visitor visitor) {
