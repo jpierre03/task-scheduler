@@ -125,7 +125,7 @@ public class Task implements Visitable {
     public void toGraphvizLabel(PrintStream out) {
         assert (name != null);
         assert (name != "");
-        out.append("node ").append("[").append("label=\"").append(name).append("\"").append("] ").append("T" + id).append("\n");
+        out.append("node ").append("[").append("label=\"").append(name).append("\"").append("] ").append("T" + id).append(";\n");
 
         for (Task t : parents) {
             out.append("T" + id).append(" -> ").append(t.getName()).append(";\n");
