@@ -24,6 +24,7 @@ package fr.prunetwork.task.domain;
  *         Date: 29/11/11 21:55
  */
 public enum TaskFrequencyStatus {
+    ALWAYS_ACCURATE,
     HOURLY, DAILY, WEEKLY, MONTHLY,
     MANUAL;
 }
