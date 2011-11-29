@@ -20,6 +20,7 @@
 package fr.prunetwork.task;
 
 import fr.prunetwork.task.domain.Task;
+import fr.prunetwork.task.domain.TaskFrequencyStatus;
 import fr.prunetwork.task.visitor.TaskGraphvizVisitor;
 import org.hibernate.Session;
 import org.hibernate.tutorial.util.HibernateUtil;
@@ -50,8 +51,12 @@ public class Main {
 
             if ("--sample-Task".equalsIgnoreCase(args[0])) {
                 Task sap = Task.createTask("sap-EC2", "true");
+                sap.setTaskFrequencyStatus(TaskFrequencyStatus.ALWAYS_ACCURATE);
+
                 Task sap_auto = Task.createTask("sap-control-m", "true");
+                sap_auto.setTaskFrequencyStatus(TaskFrequencyStatus.DAILY);
                 Task zsd021 = Task.createTask("zsd021", "\\\\pica\\zsd021.exe");
+
 
                 sap_auto.addParent(sap);
                 zsd021.addParent(sap_auto);
@@ -65,7 +70,6 @@ public class Main {
                 System.out.println("digraph task{");
                 zsd021.accept(new TaskGraphvizVisitor(System.out));
                 System.out.println("}");
-
             }
 
             if ("--hammer".equalsIgnoreCase(args[0])) {
