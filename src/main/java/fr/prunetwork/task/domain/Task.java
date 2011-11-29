@@ -44,8 +44,13 @@ public class Task implements Visitable {
     @ManyToMany
     private Set<Task> parents = new HashSet<Task>();
 
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TaskExecutionStatus taskExecutionStatus = TaskExecutionStatus.FAILED;
+
+    @Column(name = "frequency")
+    @Enumerated(EnumType.STRING)
+    private TaskFrequencyStatus taskFrequencyStatus = TaskFrequencyStatus.MANUAL;
 
     public static Task createTask(String name, String command) {
         assert (name != null);
@@ -167,6 +172,16 @@ public class Task implements Visitable {
     public void setTaskExecutionStatus(TaskExecutionStatus taskExecutionStatus) {
         assert (taskExecutionStatus != null);
         this.taskExecutionStatus = taskExecutionStatus;
+    }
+
+    public TaskFrequencyStatus getTaskFrequencyStatus() {
+        assert (taskFrequencyStatus != null);
+        return taskFrequencyStatus;
+    }
+
+    public void setTaskFrequencyStatus(TaskFrequencyStatus taskFrequencyStatus) {
+        assert (taskFrequencyStatus != null);
+        this.taskFrequencyStatus = taskFrequencyStatus;
     }
 }
 
