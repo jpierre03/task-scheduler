@@ -19,6 +19,7 @@
 
 package fr.prunetwork.task.domain;
 
+import fr.prunetwork.task.visitor.TaskHibernateHandlerVisitor;
 import fr.prunetwork.task.visitor.Visitable;
 import fr.prunetwork.task.visitor.Visitor;
 
@@ -137,6 +138,10 @@ public class Task implements Visitable {
         visitor.visit(this);
     }
 
+    public void persistInDataBase() {
+        accept(new TaskHibernateHandlerVisitor());
+    }
+
     public void toCSV(PrintStream sb) {
         assert (sb != null);
 
@@ -194,7 +199,7 @@ public class Task implements Visitable {
 
     public void setLastRun(Date lastRun) {
         assert (lastRun != null);
-        assert (lastRun.getTime() != 0): "Can't be 01/01/1970 00:00:00 !!";
+        assert (lastRun.getTime() != 0) : "Can't be 01/01/1970 00:00:00 !!";
         this.lastRun = lastRun;
     }
 }

@@ -21,7 +21,6 @@ package fr.prunetwork.task;
 
 import fr.prunetwork.task.domain.Task;
 import fr.prunetwork.task.visitor.TaskGraphvizVisitor;
-import fr.prunetwork.task.visitor.TaskHibernateHandlerVisitor;
 import org.hibernate.Session;
 import org.hibernate.tutorial.util.HibernateUtil;
 
@@ -58,10 +57,7 @@ public class Main {
                 zsd021.addParent(sap_auto);
 
 
-                zsd021.accept(new TaskHibernateHandlerVisitor());
-//                mgr.storeTask(sap);
-//                mgr.storeTask(sap_auto);
-//                mgr.storeTask(zsd021);
+                zsd021.persistInDataBase();
 
 //                mgr.displayTasks(System.out);
 //                zsd021.accept(new TaskPrintVisitor());
