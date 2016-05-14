@@ -10,14 +10,14 @@ L'objectif initial est :
 
 ## Ressource
 
-* http://kb.yworks.com/article120.html
+* [How to create a graph from data stored inside a database](http://kb.yworks.com/article120.html)
 * http://www.atoutfox.org/modules/articles/pdf/0000000785.pdf
 
 * http://docs.jboss.org/hibernate/stable/core/reference/fr-FR/html/tutorial.html#tutorial-associations-bidirectional
 * http://docs.jboss.org/hibernate/stable/core/reference/fr-FR/html/
 * http://gfx.developpez.com/tutoriel/java/hibernate/#L3
 
-* http://torpedoquery.org/
+* [HQL query faster and safer, Torpedo Query](http://torpedoquery.org/)
 
 SQL :
 
