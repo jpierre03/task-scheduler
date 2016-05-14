@@ -3,10 +3,10 @@
 Ce programme a pour vocation de lancer des programmes relativement long (plusieurs secondes de fonctionnment).
 
 L'objectif initial est :
-	* de pouvoir lancer une série de programmes avec des dépendances,
-	* de pouvoir relancer une tâche en relancant ses parents
-	* de provoquer l'exécution d'une tâche uniquement si la tâche n'a pas été lancé pandant une période données (configurable par tâche)
 
+* de pouvoir lancer une série de programmes avec des dépendances,
+* de pouvoir relancer une tâche en relancant ses parents
+* de provoquer l'exécution d'une tâche uniquement si la tâche n'a pas été lancé pandant une période données (configurable par tâche)
 
 ## Ressource
 
@@ -18,7 +18,6 @@ L'objectif initial est :
 * http://gfx.developpez.com/tutoriel/java/hibernate/#L3
 
 * http://torpedoquery.org/
-
 
 SQL :
 
