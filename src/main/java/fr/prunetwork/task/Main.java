@@ -115,7 +115,6 @@ public class Main {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-
         Task t1 = Task.createTask(name, command);
         session.save(t1);
 
@@ -126,7 +125,6 @@ public class Main {
 
             session.save(t);
         }
-
         session.getTransaction().commit();
     }
 
@@ -155,4 +153,3 @@ public class Main {
         session.getTransaction().commit();
     }
 }
-
