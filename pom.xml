@@ -36,7 +36,7 @@
 
     <build>
         <!-- we dont want the version to be part of the generated war file name -->
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
 
         <plugins>
             <plugin>
@@ -48,19 +48,23 @@
                     <target>${compileSource}</target>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>2.6</version>
                 <executions>
                     <execution>
                         <goals>
+                            <- Fail the build if there were any PMD violations in the source code.
                             <goal>check</goal>
                             <goal>cpd-check</goal>
+                            ->
+                            <goal>pmd</goal>
+                            <goal>cpd</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
